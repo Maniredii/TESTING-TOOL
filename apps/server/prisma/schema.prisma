@@ -42,6 +42,12 @@ model Project {
   description       String?
   websiteUrl        String
   defaultBrowser    String             @default("chromium")
+  defaultViewport   String             @default("1920x1080")
+  headless          Boolean            @default(true)
+  timeout           Int                @default(30000)
+  retryCount        Int                @default(0)
+  deletedAt         DateTime?
+  deletedBy         String?
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
   owner             User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)

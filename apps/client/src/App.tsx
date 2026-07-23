@@ -5,6 +5,8 @@ import { ProtectedRoute } from './layouts/ProtectedRoute';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Home } from './pages/Home';
+import { Projects } from './pages/Projects';
+import { ProjectDetails } from './pages/Projects/Details';
 
 const queryClient = new QueryClient();
 
@@ -22,7 +24,8 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Home />} />
               <Route path="/dashboard" element={<div>Dashboard</div>} />
-              <Route path="/projects" element={<div>Projects</div>} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/projects/:id" element={<ProjectDetails />} />
               <Route path="/executions" element={<div>Executions</div>} />
               <Route path="/reports" element={<div>Reports</div>} />
               <Route path="/settings" element={<div>Settings</div>} />
