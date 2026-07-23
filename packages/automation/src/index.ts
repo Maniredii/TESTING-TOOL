@@ -18,3 +18,16 @@ export * from './dom/classifiers/ElementClassifier';
 export * from './dom/classifiers/FormDetector';
 export * from './dom/analyzers/DOMAnalyzer';
 
+// Graph Builder Module
+export * from './navigation/URLNormalizer';
+export * from './navigation/NavigationEnums';
+export * from './graph/PageNode';
+export * from './graph/NavigationEdge';
+export * from './graph/WebsiteGraph';
+export * from './cache/GraphCache';
+export * from './queue/NavigationQueue';
+export * from './crawler/CrawlingRules';
+export * from './planner/PageDiscovery';
+export * from './algorithms/GraphTraversal';
+
+

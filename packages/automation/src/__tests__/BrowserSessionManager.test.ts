@@ -29,6 +29,7 @@ describe('BrowserSessionManager', () => {
     maxPages: 10,
     maxNavigationDepth: 3,
     followExternalLinks: false,
+    ignoreQueryParams: false,
   };
 
   beforeEach(() => {

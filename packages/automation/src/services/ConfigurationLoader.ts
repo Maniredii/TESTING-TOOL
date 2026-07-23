@@ -35,6 +35,7 @@ export class ConfigurationLoader {
         maxPages: rawConfig.maxPages ?? 100,
         maxNavigationDepth: rawConfig.maxNavigationDepth ?? 3,
         followExternalLinks: rawConfig.followExternalLinks ?? false,
+        ignoreQueryParams: rawConfig.ignoreQueryParams ?? false,
       };
     } catch (error: any) {
       if (error instanceof ConfigurationError) throw error;

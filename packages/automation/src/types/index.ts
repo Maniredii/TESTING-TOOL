@@ -23,4 +23,5 @@ export interface AutomationConfig {
   maxPages: number;
   maxNavigationDepth: number;
   followExternalLinks: boolean;
+  ignoreQueryParams: boolean;
 }
