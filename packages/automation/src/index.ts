@@ -30,4 +30,17 @@ export * from './crawler/CrawlingRules';
 export * from './planner/PageDiscovery';
 export * from './algorithms/GraphTraversal';
 
+// Planner Module
+export * from './planning/AutomationActionEnums';
+export * from './planning/models/ExecutionPlan';
+export * from './planning/models/ExecutionStep';
+export * from './planning/models/ActionCandidate';
+export * from './planning/InteractionPlanner';
+export * from './strategies/FormStrategy';
+export * from './rules/SafetyRules';
+export * from './rules/RuleEngine';
+export * from './scoring/ScoringEngine';
+export * from './queue/ActionQueue';
+
+
 
