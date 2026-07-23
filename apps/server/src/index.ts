@@ -11,10 +11,10 @@ import { requestLogger } from './middlewares/requestLogger';
 import { connectWithRetry } from './config/database';
 import { setupGracefulShutdown } from './config/shutdown';
 
-// Import Routes
 import healthRoutes from './routes/health.routes';
 import authRoutes from './routes/auth.routes';
 import projectRoutes from './routes/project.routes';
+import testConfigRoutes from './routes/testConfig.routes';
 
 const app = express();
 
@@ -41,6 +41,7 @@ const API_PREFIX = '/api/v1';
 app.use(`${API_PREFIX}/health`, healthRoutes);
 app.use(`${API_PREFIX}/auth`, authRoutes);
 app.use(`${API_PREFIX}/projects`, projectRoutes);
+app.use(`${API_PREFIX}/test-configurations`, testConfigRoutes);
 
 // 404 Handler
 app.use((req, res, next) => {

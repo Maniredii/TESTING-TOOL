@@ -32,6 +32,12 @@ export const ProjectDetails = () => {
           <h1 className="text-3xl font-bold dark:text-white">{project.name}</h1>
           <p className="mt-2 text-gray-600 dark:text-gray-400">{project.description || 'No description provided.'}</p>
         </div>
+        <Link 
+          to={`/projects/${project.id}/configurations`}
+          className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+        >
+          Manage Configurations
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">

@@ -51,26 +51,42 @@ model Project {
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
   owner             User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  testConfiguration TestConfiguration?
-  executions        Execution[]
+  testConfigurations TestConfiguration[]
+  executions         Execution[]
 }
 
 model TestConfiguration {
-  id             String  @id @default(cuid())
-  projectId      String  @unique
-  startPoint     String
-  loginRequired  Boolean @default(false)
-  signupRequired Boolean @default(false)
-  email          String?
-  password       String?
-  phone          String?
-  otpRequired    Boolean @default(false)
-  browser        String  @default("chromium")
-  headless       Boolean @default(true)
-  viewport       String  @default("1920x1080")
-  timeout        Int     @default(30000)
-  retryCount     Int     @default(0)
-  project        Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id                  String     @id @default(cuid())
+  projectId           String
+  name                String
+  description         String?
+  entryPoint          EntryPoint @default(HOME)
+  customUrl           String?
+  loginRequired       Boolean    @default(false)
+  signupRequired      Boolean    @default(false)
+  email               String?
+  password            String?
+  phone               String?
+  otpRequired         Boolean    @default(false)
+  browser             String     @default("chromium")
+  headless            Boolean    @default(true)
+  viewportWidth       Int        @default(1920)
+  viewportHeight      Int        @default(1080)
+  timeout             Int        @default(30000)
+  retryCount          Int        @default(0)
+  maxNavigationDepth  Int        @default(3)
+  maxPages            Int        @default(100)
+  parallelExecution   Boolean    @default(false)
+  recordVideo         Boolean    @default(true)
+  captureScreenshots  Boolean    @default(true)
+  captureConsoleLogs  Boolean    @default(true)
+  captureNetworkLogs  Boolean    @default(true)
+  followExternalLinks Boolean    @default(false)
+  ignoreQueryParams   Boolean    @default(false)
+  respectRobotsTxt    Boolean    @default(true)
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @updatedAt
+  project             Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model Execution {
@@ -160,6 +176,13 @@ enum Status {
   ACTIVE
   INACTIVE
   SUSPENDED
+}
+
+enum EntryPoint {
+  HOME
+  LOGIN
+  SIGNUP
+  CUSTOM
 }
 
 enum ExecutionStatus {

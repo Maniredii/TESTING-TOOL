@@ -7,6 +7,8 @@ import { Register } from './pages/Register';
 import { Home } from './pages/Home';
 import { Projects } from './pages/Projects';
 import { ProjectDetails } from './pages/Projects/Details';
+import { TestConfigsList } from './pages/TestConfigs';
+import { TestConfigDetails } from './pages/TestConfigs/Details';
 
 const queryClient = new QueryClient();
 
@@ -26,6 +28,8 @@ function App() {
               <Route path="/dashboard" element={<div>Dashboard</div>} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/projects/:id" element={<ProjectDetails />} />
+              <Route path="/projects/:projectId/configurations" element={<TestConfigsList />} />
+              <Route path="/projects/:projectId/configurations/:configId" element={<TestConfigDetails />} />
               <Route path="/executions" element={<div>Executions</div>} />
               <Route path="/reports" element={<div>Reports</div>} />
               <Route path="/settings" element={<div>Settings</div>} />

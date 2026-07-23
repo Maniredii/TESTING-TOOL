@@ -5,6 +5,8 @@ import { validateRequest } from '../middlewares/validate.middleware';
 import { authMiddleware } from '../middlewares/auth.middleware';
 import * as Validators from '../validators/project.validator';
 
+import { TestConfigController } from '../controllers/testConfig.controller';
+
 const router = Router();
 
 // All project routes require authentication
@@ -15,5 +17,8 @@ router.get('/', validateRequest(Validators.getProjectsQuerySchema), asyncHandler
 router.get('/:id', asyncHandler(ProjectController.getProjectById));
 router.patch('/:id', validateRequest(Validators.updateProjectSchema), asyncHandler(ProjectController.updateProject));
 router.delete('/:id', asyncHandler(ProjectController.deleteProject));
+
+// Nested route for Test Configurations
+router.get('/:projectId/test-configurations', asyncHandler(TestConfigController.getConfigsByProject));
 
 export default router;
