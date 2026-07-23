@@ -1,0 +1,28 @@
+{
+  "name": "automated-testing-platform",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "npm@10.5.0",
+  "description": "Automated Website Testing Platform Monorepo",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "turbo": "^2.0.0",
+    "typescript": "^5.0.0",
+    "husky": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

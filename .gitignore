@@ -1,0 +1,9 @@
+node_modules
+dist
+build
+.turbo
+.env
+.DS_Store
+coverage
+*.log
+phase1 roadmap.md 

@@ -1,0 +1,165 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String    @unique
+  passwordHash String
+  avatar       String?
+  role         Role      @default(USER)
+  status       Status    @default(ACTIVE)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  projects     Project[]
+}
+
+model Project {
+  id                String             @id @default(cuid())
+  ownerId           String
+  name              String
+  description       String?
+  websiteUrl        String
+  defaultBrowser    String             @default("chromium")
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  owner             User               @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  testConfiguration TestConfiguration?
+  executions        Execution[]
+}
+
+model TestConfiguration {
+  id             String  @id @default(cuid())
+  projectId      String  @unique
+  startPoint     String
+  loginRequired  Boolean @default(false)
+  signupRequired Boolean @default(false)
+  email          String?
+  password       String?
+  phone          String?
+  otpRequired    Boolean @default(false)
+  browser        String  @default("chromium")
+  headless       Boolean @default(true)
+  viewport       String  @default("1920x1080")
+  timeout        Int     @default(30000)
+  retryCount     Int     @default(0)
+  project        Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Execution {
+  id          String          @id @default(cuid())
+  projectId   String
+  status      ExecutionStatus @default(PENDING)
+  browser     String
+  startedAt   DateTime?
+  completedAt DateTime?
+  duration    Int?
+  project     Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  steps       ExecutionStep[]
+  video       Video?
+  report      Report?
+  logs        Log[]
+  session     Session?
+}
+
+model ExecutionStep {
+  id          String       @id @default(cuid())
+  executionId String
+  stepNumber  Int
+  action      String
+  elementType String?
+  elementText String?
+  selector    String?
+  previousUrl String?
+  currentUrl  String?
+  status      StepStatus   @default(PENDING)
+  timestamp   DateTime     @default(now())
+  execution   Execution    @relation(fields: [executionId], references: [id], onDelete: Cascade)
+  screenshots Screenshot[]
+}
+
+model Screenshot {
+  id              String        @id @default(cuid())
+  executionStepId String
+  path            String
+  type            String
+  createdAt       DateTime      @default(now())
+  executionStep   ExecutionStep @relation(fields: [executionStepId], references: [id], onDelete: Cascade)
+}
+
+model Video {
+  id          String    @id @default(cuid())
+  executionId String    @unique
+  path        String
+  duration    Int?
+  execution   Execution @relation(fields: [executionId], references: [id], onDelete: Cascade)
+}
+
+model Report {
+  id          String    @id @default(cuid())
+  executionId String    @unique
+  htmlReport  String?
+  pdfReport   String?
+  jsonReport  String?
+  execution   Execution @relation(fields: [executionId], references: [id], onDelete: Cascade)
+}
+
+model Log {
+  id          String    @id @default(cuid())
+  executionId String
+  level       LogLevel  @default(INFO)
+  message     String
+  stackTrace  String?
+  timestamp   DateTime  @default(now())
+  execution   Execution @relation(fields: [executionId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id             String    @id @default(cuid())
+  executionId    String    @unique
+  cookies        String?   @db.Text
+  localStorage   String?   @db.Text
+  sessionStorage String?   @db.Text
+  execution      Execution @relation(fields: [executionId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum ExecutionStatus {
+  PENDING
+  RUNNING
+  PASSED
+  FAILED
+  ABORTED
+}
+
+enum StepStatus {
+  PENDING
+  RUNNING
+  PASSED
+  FAILED
+  SKIPPED
+}
+
+enum LogLevel {
+  INFO
+  WARN
+  ERROR
+  DEBUG
+}
