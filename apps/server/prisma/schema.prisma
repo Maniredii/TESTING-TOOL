@@ -93,11 +93,19 @@ model Execution {
   id          String          @id @default(cuid())
   projectId   String
   status      ExecutionStatus @default(PENDING)
-  browser     String
-  startedAt   DateTime?
-  completedAt DateTime?
-  duration    Int?
-  project     Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  browser           String
+  startedAt         DateTime?
+  completedAt       DateTime?
+  cancelledAt       DateTime?
+  duration          Int?
+  progress          Float           @default(0)
+  currentStage      String?
+  currentAction     String?
+  errorMessage      String?
+  reportLocation    String?
+  configurationId   String?
+  userId            String?
+  project           Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
   steps       ExecutionStep[]
   video       Video?
   report      Report?
