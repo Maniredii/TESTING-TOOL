@@ -8,17 +8,31 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(cuid())
-  firstName    String
-  lastName     String
-  email        String    @unique
-  passwordHash String
-  avatar       String?
-  role         Role      @default(USER)
-  status       Status    @default(ACTIVE)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  projects     Project[]
+  id                   String         @id @default(cuid())
+  firstName            String
+  lastName             String
+  email                String         @unique
+  passwordHash         String
+  avatar               String?
+  role                 Role           @default(VIEWER)
+  status               Status         @default(ACTIVE)
+  passwordResetToken   String?        @unique
+  passwordResetExpires DateTime?
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  projects             Project[]
+  refreshTokens        RefreshToken[]
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  revoked   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Project {
@@ -131,8 +145,9 @@ model Session {
 }
 
 enum Role {
-  USER
   ADMIN
+  TESTER
+  VIEWER
 }
 
 enum Status {

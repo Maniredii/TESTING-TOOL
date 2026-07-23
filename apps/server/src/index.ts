@@ -13,12 +13,16 @@ import { setupGracefulShutdown } from './config/shutdown';
 
 // Import Routes
 import healthRoutes from './routes/health.routes';
+import authRoutes from './routes/auth.routes';
 
 const app = express();
 
 // Global Middlewares
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5174', // Vite default port
+  credentials: true,
+}));
 app.use(compression());
 app.use(cookieParser());
 app.use(express.json());
@@ -34,6 +38,7 @@ if (env.NODE_ENV === 'development') {
 const API_PREFIX = '/api/v1';
 
 app.use(`${API_PREFIX}/health`, healthRoutes);
+app.use(`${API_PREFIX}/auth`, authRoutes);
 
 // 404 Handler
 app.use((req, res, next) => {
